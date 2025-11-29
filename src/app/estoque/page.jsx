@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Form, Select, InputNumber, DatePicker, Alert } from 'antd';
 import { useRouter } from 'next/navigation';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import styles from './Estoque.module.css';
 import axios from 'axios';
 
@@ -41,39 +43,70 @@ export default function Estoque() {
 
   return (
     <div className={styles.container}>
-      <Button onClick={() => router.replace('/home')}>Voltar</Button>
-      <h1>Gestão de Estoque</h1>
-      {alerta && <Alert message={alerta} type="warning" closable onClose={() => setAlerta(null)} />}
-      <Form form={form} layout="inline" onFinish={registrarMovimentacao}>
-        <Form.Item name="produtoIoT_id" rules={[{ required: true }]}>
-          <Select placeholder="Produto IoT">
-            {produtosIoT.map((p) => (
-              <Select.Option key={p.id} value={p.id}>
-                {p.nome}
-              </Select.Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item name="tipo" rules={[{ required: true }]}>
-          <Select placeholder="Tipo">
-            <Select.Option value="entrada">Entrada</Select.Option>
-            <Select.Option value="saida">Saída</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item name="quantidade" rules={[{ required: true }]}>
-          <InputNumber placeholder="Quantidade" min={1} />
-        </Form.Item>
-        <Form.Item name="data_movimentacao">
-          <DatePicker placeholder="Data" />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Registrar
-          </Button>
-        </Form.Item>
-      </Form>
-      <h2>Estoque Atual</h2>
-      <Table columns={colunas} dataSource={produtosIoT} rowKey="id" />
+      <Header />
+      
+      <main className={styles.main}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Gestão de Estoque</h1>
+          <p className={styles.subtitle}>Registre movimentações e monitore seus produtos</p>
+        </div>
+
+        {alerta && (
+          <Alert 
+            message={alerta} 
+            type="warning" 
+            closable 
+            onClose={() => setAlerta(null)}
+            className={styles.alert}
+            showIcon
+          />
+        )}
+
+        <div className={styles.formSection}>
+          <h2 className={styles.sectionTitle}>Registrar Movimentação</h2>
+          <Form form={form} layout="inline" onFinish={registrarMovimentacao} className={styles.form}>
+            <Form.Item name="produtoIoT_id" rules={[{ required: true, message: 'Selecione o produto' }]}>
+              <Select placeholder="Produto IoT" size="large" style={{ width: 220 }}>
+                {produtosIoT.map((p) => (
+                  <Select.Option key={p.id} value={p.id}>
+                    {p.nome}
+                  </Select.Option>
+                ))}
+              </Select>
+            </Form.Item>
+            <Form.Item name="tipo" rules={[{ required: true, message: 'Selecione o tipo' }]}>
+              <Select placeholder="Tipo" size="large" style={{ width: 150 }}>
+                <Select.Option value="entrada">Entrada</Select.Option>
+                <Select.Option value="saida">Saída</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="quantidade" rules={[{ required: true, message: 'Informe a quantidade' }]}>
+              <InputNumber placeholder="Quantidade" min={1} size="large" style={{ width: 150 }} />
+            </Form.Item>
+            <Form.Item name="data_movimentacao">
+              <DatePicker placeholder="Data" size="large" />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" size="large" className={styles.btnPrimary}>
+                Registrar
+              </Button>
+            </Form.Item>
+          </Form>
+        </div>
+
+        <div className={styles.tableSection}>
+          <h2 className={styles.sectionTitle}>Estoque Atual</h2>
+          <Table 
+            columns={colunas} 
+            dataSource={produtosIoT} 
+            rowKey="id"
+            className={styles.table}
+            pagination={{ pageSize: 10 }}
+          />
+        </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }

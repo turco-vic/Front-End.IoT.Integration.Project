@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { Button } from 'antd';
-import { BoxPlotOutlined, InboxOutlined, LogoutOutlined } from '@ant-design/icons';
+import { HomeOutlined, BoxPlotOutlined, InboxOutlined, LogoutOutlined } from '@ant-design/icons';
 import styles from '../styles/Header.module.css';
 
 export default function Header() {
@@ -17,6 +17,14 @@ export default function Header() {
       <div className={styles.headerContent}>
         <h2 className={styles.logo}>Sistema IoT</h2>
         <nav className={styles.nav}>
+          <Button 
+            type="text" 
+            icon={<HomeOutlined />}
+            onClick={() => router.replace('/home')}
+            className={styles.navButton}
+          >
+            Home
+          </Button>
           <Button 
             type="text" 
             icon={<BoxPlotOutlined />}

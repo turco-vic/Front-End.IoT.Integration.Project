@@ -41,7 +41,7 @@ export default function Home() {
                 >
                   <BoxPlotOutlined className={styles.cardIcon} />
                   <h3>Produtos IoT</h3>
-                  <p>Gerencie seu catálogo de produtos IoT, incluindo sensores, microcontroladores e componentes eletrônicos.</p>
+                  <p>Gerenciamento do catálogo de produtos IoT, incluindo sensores, microcontroladores e componentes eletrônicos.</p>
                 </Card>
               </Col>
               <Col xs={24} md={12}>
@@ -52,7 +52,7 @@ export default function Home() {
                 >
                   <InboxOutlined className={styles.cardIcon} />
                   <h3>Gestão de Estoque</h3>
-                  <p>Controle entradas e saídas, monitore níveis de estoque e receba alertas quando estiver abaixo do mínimo.</p>
+                  <p>Controle de entradas e saídas, monitoramento de níveis de estoque e recebimento de alertas quando estiver abaixo do mínimo.</p>
                 </Card>
               </Col>
             </Row>

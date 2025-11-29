@@ -1,8 +1,83 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    gap: 2rem;
-    }
+  min-height: 100vh;
+  background: #f5f7fa;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  color: #476f95;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 16px;
+}
+
+.alert {
+  margin-bottom: 24px;
+}
+
+.formSection {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  color: #476f95;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btnPrimary {
+  background: #476f95 !important;
+  border-color: #476f95 !important;
+}
+
+.btnPrimary:hover {
+  background: #5a8bb8 !important;
+  border-color: #5a8bb8 !important;
+}
+
+.tableSection {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.table :global(.ant-table-thead > tr > th) {
+  background: #476f95;
+  color: white;
+  font-weight: 600;
+}
+
+.table :global(.ant-table-tbody > tr:hover > td) {
+  background: #f0f5fa;
+}

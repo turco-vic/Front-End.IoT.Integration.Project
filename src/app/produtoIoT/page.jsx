@@ -2,6 +2,9 @@
 import { useEffect, useState } from 'react';
 import { Table, Button, Form, Input, InputNumber, Modal, Select } from 'antd';
 import { useRouter } from 'next/navigation';
+import { SearchOutlined } from '@ant-design/icons';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import styles from './ProdutosIoT.module.css';
 import axios from 'axios';
 
@@ -90,42 +93,68 @@ export default function ProdutosIoT() {
   return (
     <div className={styles.container}>
       {contextHolder}
-      <Button onClick={() => router.replace('/home')}>Voltar Home</Button>
-      <h1>Produtos IoT</h1>
-      <Form form={form} layout="inline" onFinish={salvarProdutoIoT}>
-        <Form.Item name="nome" rules={[{ required: true }]}>
-          <Input placeholder="Nome" />
-        </Form.Item>
-        <Form.Item name="categoria" rules={[{ required: true }]}>
-          <Select placeholder="Categoria" style={{ width: 200 }}>
-            <Select.Option value="Sensores">Sensores</Select.Option>
-            <Select.Option value="Microcontroladores">Microcontroladores</Select.Option>
-            <Select.Option value="Conectividade">Conectividade</Select.Option>
-            <Select.Option value="Atuadores">Atuadores</Select.Option>
-            <Select.Option value="Componentes">Componentes</Select.Option>
-          </Select>
-        </Form.Item>
-        <Form.Item name="estoque_minimo" rules={[{ required: true }]}>
-          <InputNumber placeholder="Estoque Mínimo" min={0} style={{ width: 150 }} />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            {editandoId ? 'Salvar' : 'Adicionar'}
-          </Button>
-          {editandoId && (
-            <Button onClick={() => { form.resetFields(); setEditandoId(null); }} style={{ marginLeft: 8 }}>
-              Cancelar
-            </Button>
-          )}
-        </Form.Item>
-      </Form>
-      <Input
-        placeholder="Buscar produto IoT por nome"
-        value={filtroNome}
-        onChange={(e) => setFiltroNome(e.target.value)}
-        allowClear
-      />
-      <Table columns={colunas} dataSource={produtosIoTFiltrados} rowKey="id" />
+      <Header />
+      
+      <main className={styles.main}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Produtos IoT</h1>
+          <p className={styles.subtitle}>Gerencie seu catálogo de produtos</p>
+        </div>
+
+        <div className={styles.formSection}>
+          <Form form={form} layout="inline" onFinish={salvarProdutoIoT} className={styles.form}>
+            <Form.Item name="nome" rules={[{ required: true, message: 'Nome obrigatório' }]}>
+              <Input placeholder="Nome do Produto" size="large" style={{ width: 200 }} />
+            </Form.Item>
+            <Form.Item name="categoria" rules={[{ required: true, message: 'Categoria obrigatória' }]}>
+              <Select placeholder="Categoria" size="large" style={{ width: 200 }}>
+                <Select.Option value="Sensores">Sensores</Select.Option>
+                <Select.Option value="Microcontroladores">Microcontroladores</Select.Option>
+                <Select.Option value="Conectividade">Conectividade</Select.Option>
+                <Select.Option value="Atuadores">Atuadores</Select.Option>
+                <Select.Option value="Componentes">Componentes</Select.Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="estoque_minimo" rules={[{ required: true, message: 'Estoque mínimo obrigatório' }]}>
+              <InputNumber placeholder="Estoque Mínimo" min={0} size="large" style={{ width: 160 }} />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" size="large" className={styles.btnPrimary}>
+                {editandoId ? 'Salvar' : 'Adicionar'}
+              </Button>
+              {editandoId && (
+                <Button onClick={() => { form.resetFields(); setEditandoId(null); }} size="large" style={{ marginLeft: 8 }}>
+                  Cancelar
+                </Button>
+              )}
+            </Form.Item>
+          </Form>
+        </div>
+
+        <div className={styles.searchSection}>
+          <Input
+            placeholder="Buscar produto por nome"
+            value={filtroNome}
+            onChange={(e) => setFiltroNome(e.target.value)}
+            allowClear
+            size="large"
+            prefix={<SearchOutlined />}
+            className={styles.searchInput}
+          />
+        </div>
+
+        <div className={styles.tableSection}>
+          <Table 
+            columns={colunas} 
+            dataSource={produtosIoTFiltrados} 
+            rowKey="id"
+            className={styles.table}
+            pagination={{ pageSize: 10 }}
+          />
+        </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }
