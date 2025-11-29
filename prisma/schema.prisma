@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id           Int            @id @default(autoincrement())
+  nome         String         @unique
+  senha        String
+  movimentacao Movimentacao[]
+}
+
+model ProdutoIoT {
+  id             Int            @id @default(autoincrement())
+  nome           String
+  categoria      String?
+  estoque_minimo Int?           @default(0)
+  movimentacao   Movimentacao[]
+}
+
+model Movimentacao {
+  id         Int        @id @default(autoincrement())
+  tipo       String
+  quantidade Int
+  data       DateTime?  @default(now())
+  usuarioId  Int
+  produtoId  Int
+  usuario    Usuario    @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  produto    ProdutoIoT @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+}
