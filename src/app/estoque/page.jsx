@@ -20,13 +20,25 @@ export default function Estoque() {
 
   const registrarMovimentacao = async (values) => {
     const usuario = JSON.parse(sessionStorage.getItem('usuario'));
-    const { data } = await axios.post('/api/estoque', {
-      ...values,
-      usuario_id: usuario.id,
-    });
-    if (data.alerta) setAlerta(`Atenção! Estoque abaixo do mínimo: ${data.estoqueAtual} unidades`);
-    form.resetFields();
-    carregarDados();
+    
+    if (!usuario || !usuario.id) {
+      alert('Usuário não identificado. Faça login novamente.');
+      router.replace('/');
+      return;
+    }
+
+    try {
+      const { data } = await axios.post('/api/estoque', {
+        ...values,
+        usuario_id: usuario.id,
+      });
+      if (data.alerta) setAlerta(`Atenção! Estoque abaixo do mínimo: ${data.estoqueAtual} unidades`);
+      form.resetFields();
+      carregarDados();
+    } catch (error) {
+      console.error('Erro ao registrar movimentação:', error);
+      alert('Erro ao registrar movimentação: ' + (error.response?.data?.erro || error.message));
+    }
   };
 
   useEffect(() => {

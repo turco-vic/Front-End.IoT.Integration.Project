@@ -29,6 +29,13 @@ export async function GET() {
 export async function POST(request) {
   try {
     const { produtoIoT_id, usuario_id, tipo, quantidade, data_movimentacao } = await request.json();
+    
+    console.log('Dados recebidos:', { produtoIoT_id, usuario_id, tipo, quantidade, data_movimentacao });
+
+    if (!usuario_id || isNaN(parseInt(usuario_id))) {
+      return NextResponse.json({ erro: 'ID do usuário inválido' }, { status: 400 });
+    }
+
     const produtoIoT = await prisma.produtoIoT.findUnique({
       where: { id: parseInt(produtoIoT_id) },
       include: { movimentacao: true },
