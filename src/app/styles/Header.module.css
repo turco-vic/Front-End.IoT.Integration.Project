@@ -1,0 +1,37 @@
+.header {
+  background: #476f95;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.102);
+  padding: 0;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  height: 64px;
+}
+
+.logo {
+  color: #f5f7fa;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+}
+
+.navButton {
+  color: #f5f7fa !important;
+  font-weight: 500;
+}
+
+.navButton:hover {
+  background: #ffffff1a !important;
+  color: #ffffff !important;
+}

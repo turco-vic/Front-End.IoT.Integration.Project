@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Table, Button, Form, Input, InputNumber, Modal } from 'antd';
+import { Table, Button, Form, Input, InputNumber, Modal, Select } from 'antd';
 import { useRouter } from 'next/navigation';
 import styles from './ProdutosIoT.module.css';
 import axios from 'axios';
@@ -25,16 +25,27 @@ export default function ProdutosIoT() {
 
   const editar = (produtoIoT) => {
     setEditandoId(produtoIoT.id);
-    form.setFieldsValue(produtoIoT);
+    form.setFieldsValue({
+      nome: produtoIoT.nome,
+      categoria: produtoIoT.categoria,
+      estoque_minimo: produtoIoT.estoque_minimo,
+    });
   };
 
   const salvarProdutoIoT = async (values) => {
-    editandoId
-      ? await axios.put(`/api/produtoIoT/${editandoId}`, values)
-      : await axios.post('/api/produtoIoT', values);
-    form.resetFields();
-    setEditandoId(null);
-    carregarProdutosIoT();
+    try {
+      if (editandoId) {
+        await axios.put(`/api/produtoIoT/${editandoId}`, values);
+      } else {
+        await axios.post('/api/produtoIoT', values);
+      }
+      form.resetFields();
+      setEditandoId(null);
+      carregarProdutosIoT();
+    } catch (error) {
+      console.error('Erro ao salvar produto:', error);
+      alert('Erro ao salvar produto: ' + (error.response?.data?.erro || error.message));
+    }
   };
 
   const removerProdutoIoT = (id) => {
@@ -44,8 +55,13 @@ export default function ProdutosIoT() {
       okText: 'Sim',
       cancelText: 'Não',
       onOk: async () => {
-        await axios.delete(`/api/produtoIoT/${id}`);
-        carregarProdutosIoT();
+        try {
+          await axios.delete(`/api/produtoIoT/${id}`);
+          carregarProdutosIoT();
+        } catch (error) {
+          console.error('Erro ao deletar produto:', error);
+          alert('Erro ao deletar produto: ' + (error.response?.data?.erro || error.message));
+        }
       },
     });
   };
@@ -80,11 +96,14 @@ export default function ProdutosIoT() {
         <Form.Item name="nome" rules={[{ required: true }]}>
           <Input placeholder="Nome" />
         </Form.Item>
-          <Form.Item name="categoria" rules={[{ required: true }]}>
-            <Input placeholder="Categoria" />
-          </Form.Item>
-        <Form.Item name="estoque_atual" rules={[{ required: true }]}>
-          <InputNumber placeholder="Estoque Atual" min={0} style={{ width: 150 }} />
+        <Form.Item name="categoria" rules={[{ required: true }]}>
+          <Select placeholder="Categoria" style={{ width: 200 }}>
+            <Select.Option value="Sensores">Sensores</Select.Option>
+            <Select.Option value="Microcontroladores">Microcontroladores</Select.Option>
+            <Select.Option value="Conectividade">Conectividade</Select.Option>
+            <Select.Option value="Atuadores">Atuadores</Select.Option>
+            <Select.Option value="Componentes">Componentes</Select.Option>
+          </Select>
         </Form.Item>
         <Form.Item name="estoque_minimo" rules={[{ required: true }]}>
           <InputNumber placeholder="Estoque Mínimo" min={0} style={{ width: 150 }} />
@@ -93,6 +112,11 @@ export default function ProdutosIoT() {
           <Button type="primary" htmlType="submit">
             {editandoId ? 'Salvar' : 'Adicionar'}
           </Button>
+          {editandoId && (
+            <Button onClick={() => { form.resetFields(); setEditandoId(null); }} style={{ marginLeft: 8 }}>
+              Cancelar
+            </Button>
+          )}
         </Form.Item>
       </Form>
       <Input
