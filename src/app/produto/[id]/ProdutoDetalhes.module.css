@@ -1,0 +1,153 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f7fa;
+  font-family: Arial, sans-serif;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+}
+
+.btnVoltar {
+  position: absolute;
+  top: 100px;
+  left: 2rem;
+  color: #476f95;
+  font-size: 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btnVoltar:hover {
+  color: #3a5a7a;
+  transform: scale(1.1);
+}
+
+.title {
+  font-size: 2.5rem;
+  color: #476f95;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card :global(.ant-card-head) {
+  background-color: #476f95;
+  color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.card :global(.ant-card-head-title) {
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.estoqueNormal {
+  color: #52c41a;
+  font-weight: bold;
+}
+
+.estoqueAlerta {
+  color: #ff4d4f;
+  font-weight: bold;
+}
+
+.alerta {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #fff7e6;
+  border: 1px solid #ffd591;
+  border-radius: 4px;
+  color: #d46b08;
+  font-weight: bold;
+  text-align: center;
+}
+
+.table :global(.ant-table-thead > tr > th) {
+  background-color: #476f95;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.table :global(.ant-table-thead > tr > th.ant-table-column-has-sorters:hover) {
+  background-color: #3a5a7a;
+}
+
+.table :global(.ant-table-thead > tr > th.ant-table-column-sort) {
+  background-color: #3a5a7a;
+}
+
+.table :global(.ant-table-column-sorter) {
+  color: white;
+}
+
+.table :global(.ant-table-column-sorter-up.active),
+.table :global(.ant-table-column-sorter-down.active) {
+  color: #ffffff;
+}
+
+.table :global(.ant-table-tbody > tr > td) {
+  text-align: center;
+}
+
+.table :global(.ant-table-tbody > tr:hover > td) {
+  background-color: #f0f5ff;
+}
+
+.semDados {
+  text-align: center;
+  color: #64748b;
+  padding: 2rem;
+  font-size: 1rem;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .content {
+    gap: 1rem;
+  }
+}

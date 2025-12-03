@@ -70,25 +70,33 @@ export default function ProdutosIoT() {
   };
 
   const colunas = [
-    { title: 'Nome', dataIndex: 'nome', key: 'nome' },
-    { title: 'Categoria', dataIndex: 'categoria', key: 'categoria' },
-    { title: 'Estoque Atual', dataIndex: 'estoque_atual', key: 'estoque_atual' },
-    { title: 'Estoque Mínimo', dataIndex: 'estoque_minimo', key: 'estoque_minimo' },
+    { title: 'Nome', dataIndex: 'nome', key: 'nome', align: 'center' },
+    { title: 'Categoria', dataIndex: 'categoria', key: 'categoria', align: 'center' },
+    { title: 'Estoque Atual', dataIndex: 'estoque_atual', key: 'estoque_atual', align: 'center' },
+    { title: 'Estoque Mínimo', dataIndex: 'estoque_minimo', key: 'estoque_minimo', align: 'center' },
     {
       title: 'Ações',
       key: 'acoes',
+      align: 'center',
       render: (_, l) => (
-        <>
-          <Button onClick={() => editar(l)}>Editar</Button>
-          <Button danger onClick={() => removerProdutoIoT(l.id)}>Apagar</Button>
-        </>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <Button onClick={() => router.push(`/produto/${l.id}`)} className={styles.btnDetalhes}>Ver Detalhes</Button>
+          <Button onClick={() => editar(l)} className={styles.btnEditar}>Editar</Button>
+          <Button onClick={() => removerProdutoIoT(l.id)} className={styles.btnApagar}>Apagar</Button>
+        </div>
       ),
     },
   ];
 
-  const produtosIoTFiltrados = produtosIoT.filter((p) =>
-    p.nome.toLowerCase().includes(filtroNome.toLowerCase()),
-  );
+  const removerAcentos = (texto) => {
+    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  };
+
+  const produtosIoTFiltrados = produtosIoT.filter((p) => {
+    const nomeSemAcento = removerAcentos(p.nome.toLowerCase());
+    const filtroSemAcento = removerAcentos(filtroNome.toLowerCase());
+    return nomeSemAcento.includes(filtroSemAcento);
+  });
 
   return (
     <div className={styles.container}>
@@ -102,6 +110,7 @@ export default function ProdutosIoT() {
         </div>
 
         <div className={styles.formSection}>
+          <h2 className={styles.sectionTitle}>Adicionar Produto</h2>
           <Form form={form} layout="inline" onFinish={salvarProdutoIoT} className={styles.form}>
             <Form.Item name="nome" rules={[{ required: true, message: 'Nome obrigatório' }]}>
               <Input placeholder="Nome do Produto" size="large" style={{ width: 200 }} />
@@ -149,7 +158,7 @@ export default function ProdutosIoT() {
             dataSource={produtosIoTFiltrados} 
             rowKey="id"
             className={styles.table}
-            pagination={{ pageSize: 10 }}
+            pagination={false}
           />
         </div>
       </main>

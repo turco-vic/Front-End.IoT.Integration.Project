@@ -47,12 +47,30 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 16px;
+  text-align: center;
 }
 
 .form {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  justify-content: center;
+}
+
+.form :global(.ant-input:focus),
+.form :global(.ant-input-number:focus),
+.form :global(.ant-input-number-focused),
+.form :global(.ant-select-focused .ant-select-selector),
+.form :global(.ant-picker-focused) {
+  border-color: #476f95 !important;
+  box-shadow: 0 0 0 2px rgba(71, 111, 149, 0.2) !important;
+}
+
+.form :global(.ant-input:hover),
+.form :global(.ant-input-number:hover),
+.form :global(.ant-select:not(.ant-select-disabled):hover .ant-select-selector),
+.form :global(.ant-picker:hover) {
+  border-color: #476f95 !important;
 }
 
 .btnPrimary {

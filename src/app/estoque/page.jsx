@@ -1,11 +1,16 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Table, Button, Form, Select, InputNumber, DatePicker, Alert } from 'antd';
+import { Table, Button, Form, Select, InputNumber, DatePicker, Alert, ConfigProvider } from 'antd';
 import { useRouter } from 'next/navigation';
+import locale from 'antd/locale/pt_BR';
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styles from './Estoque.module.css';
 import axios from 'axios';
+
+dayjs.locale('pt-br');
 
 export default function Estoque() {
   const router = useRouter();
@@ -32,7 +37,21 @@ export default function Estoque() {
         ...values,
         usuario_id: usuario.id,
       });
-      if (data.alerta) setAlerta(`Atenção! Estoque abaixo do mínimo: ${data.estoqueAtual} unidades`);
+      
+      const produto = produtosIoT.find(p => p.id === values.produtoIoT_id);
+      
+      // Verifica se após a movimentação o estoque ainda está abaixo do mínimo
+      if (data.estoqueAtual < (produto?.estoque_minimo || 0)) {
+        setAlerta({
+          produto: produto?.nome || 'Produto',
+          estoqueAtual: data.estoqueAtual,
+          estoqueMinimo: produto?.estoque_minimo || 0,
+          tipo: values.tipo
+        });
+      } else {
+        setAlerta(null);
+      }
+      
       form.resetFields();
       carregarDados();
     } catch (error) {
@@ -54,25 +73,46 @@ export default function Estoque() {
   ];
 
   return (
-    <div className={styles.container}>
-      <Header />
-      
-      <main className={styles.main}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Gestão de Estoque</h1>
-          <p className={styles.subtitle}>Registre movimentações e monitore seus produtos</p>
-        </div>
+    <ConfigProvider locale={locale}>
+      <div className={styles.container}>
+        <Header />
+        
+        <main className={styles.main}>
+          <div className={styles.header}>
+            <h1 className={styles.title}>Gestão de Estoque</h1>
+            <p className={styles.subtitle}>Registre movimentações e monitore seus produtos</p>
+          </div>
 
-        {alerta && (
-          <Alert 
-            message={alerta} 
-            type="warning" 
-            closable 
-            onClose={() => setAlerta(null)}
-            className={styles.alert}
-            showIcon
-          />
-        )}
+          {alerta && (
+            <Alert 
+              message={
+                <span>
+                  <strong>⚠️ Alerta de Estoque Baixo</strong>
+                </span>
+              }
+              description={
+                <div>
+                  <p style={{ margin: '8px 0' }}>
+                    <strong>Produto:</strong> {alerta.produto}
+                  </p>
+                  <p style={{ margin: '8px 0' }}>
+                    <strong>Estoque Atual:</strong> {alerta.estoqueAtual} unidades
+                  </p>
+                  <p style={{ margin: '8px 0' }}>
+                    <strong>Estoque Mínimo:</strong> {alerta.estoqueMinimo} unidades
+                  </p>
+                  <p style={{ margin: '8px 0', color: '#d46b08' }}>
+                    <strong>Diferença:</strong> {alerta.estoqueMinimo - alerta.estoqueAtual} unidades abaixo do mínimo
+                  </p>
+                </div>
+              }
+              type="warning" 
+              closable 
+              onClose={() => setAlerta(null)}
+              className={styles.alert}
+              showIcon
+            />
+          )}
 
         <div className={styles.formSection}>
           <h2 className={styles.sectionTitle}>Registrar Movimentação</h2>
@@ -96,7 +136,16 @@ export default function Estoque() {
               <InputNumber placeholder="Quantidade" min={1} size="large" style={{ width: 150 }} />
             </Form.Item>
             <Form.Item name="data_movimentacao">
-              <DatePicker placeholder="Data" size="large" />
+              <DatePicker 
+                placeholder="Data" 
+                size="large" 
+                format="DD/MM/YYYY"
+                disabledDate={(current) => {
+                  // Desabilita datas futuras (após hoje)
+                  return current && current > dayjs().endOf('day');
+                }}
+                defaultValue={dayjs()}
+              />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" size="large" className={styles.btnPrimary}>
@@ -113,12 +162,13 @@ export default function Estoque() {
             dataSource={produtosIoT} 
             rowKey="id"
             className={styles.table}
-            pagination={{ pageSize: 10 }}
+            pagination={false}
           />
         </div>
       </main>
 
       <Footer />
-    </div>
+      </div>
+    </ConfigProvider>
   );
 }

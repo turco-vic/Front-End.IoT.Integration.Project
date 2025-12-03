@@ -11,8 +11,20 @@ const calcularEstoque = (movimentacoes) =>
 
 export async function GET() {
   try {
+    const movimentacoes = await prisma.movimentacao.findMany({
+      include: {
+        produto: true,
+        usuario: true,
+      },
+      orderBy: {
+        data: 'desc',
+      },
+    });
+
     const produtosIoT = await prisma.produtoIoT.findMany({ include: { movimentacao: true } });
+
     return NextResponse.json({
+      movimentacoes,
       produtosIoT: produtosIoT.map((p) => ({
         id: p.id,
         nome: p.nome,
@@ -22,6 +34,7 @@ export async function GET() {
       })),
     });
   } catch (error) {
+    console.error('Erro ao buscar movimentações:', error);
     return NextResponse.json({ erro: 'Erro ao buscar estoque' }, { status: 500 });
   }
 }

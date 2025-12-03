@@ -1,4 +1,4 @@
-.container {
+﻿.container {
   min-height: 100vh;
   background: #f5f7fa;
   display: flex;
@@ -38,10 +38,33 @@
   margin-bottom: 24px;
 }
 
+.sectionTitle {
+  color: #476f95;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
 .form {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
+  justify-content: center;
+}
+
+.form :global(.ant-input:focus),
+.form :global(.ant-input-number:focus),
+.form :global(.ant-input-number-focused),
+.form :global(.ant-select-focused .ant-select-selector) {
+  border-color: #476f95 !important;
+  box-shadow: 0 0 0 2px rgba(71, 111, 149, 0.2) !important;
+}
+
+.form :global(.ant-input:hover),
+.form :global(.ant-input-number:hover),
+.form :global(.ant-select:not(.ant-select-disabled):hover .ant-select-selector) {
+  border-color: #476f95 !important;
 }
 
 .btnPrimary {
@@ -56,10 +79,32 @@
 
 .searchSection {
   margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
 }
 
 .searchInput {
-  max-width: 400px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.searchInput:hover {
+  border-color: #476f95 !important;
+}
+
+.searchInput:focus,
+.searchInput:focus-within {
+  border-color: #476f95 !important;
+  box-shadow: 0 0 0 2px rgba(71, 111, 149, 0.2) !important;
+}
+
+.searchInput :global(.ant-input:focus) {
+  border-color: #476f95 !important;
+  box-shadow: none !important;
+}
+
+.searchInput :global(.ant-input:hover) {
+  border-color: #476f95 !important;
 }
 
 .tableSection {
@@ -73,8 +118,105 @@
   background: #476f95;
   color: white;
   font-weight: 600;
+  text-align: center;
+}
+
+.table :global(.ant-table-tbody > tr > td) {
+  text-align: center;
 }
 
 .table :global(.ant-table-tbody > tr:hover > td) {
   background: #f0f5fa;
+}
+.btnDetalhes {
+  background: #476f95 !important;
+  color: white !important;
+  border: none !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btnDetalhes:hover {
+  background: #3a5a7a !important;
+  color: white !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(71, 111, 149, 0.3) !important;
+}
+
+.btnEditar {
+  background: white !important;
+  color: #476f95 !important;
+  border: 1px solid #476f95 !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btnEditar:hover {
+  background: #476f95 !important;
+  color: white !important;
+  border-color: #476f95 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(71, 111, 149, 0.3) !important;
+}
+
+.btnApagar {
+  background: white !important;
+  color: #dc3545 !important;
+  border: 1px solid #dc3545 !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btnApagar:hover {
+  background: #dc3545 !important;
+  color: white !important;
+  border-color: #dc3545 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
+}
+.btnDetalhes {
+  background: #476f95 !important;
+  color: white !important;
+  border: none !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btnDetalhes:hover {
+  background: #3a5a7a !important;
+  color: white !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(71, 111, 149, 0.3) !important;
+}
+
+.btnEditar {
+  background: white !important;
+  color: #476f95 !important;
+  border: 1px solid #476f95 !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btnEditar:hover {
+  background: #476f95 !important;
+  color: white !important;
+  border-color: #476f95 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(71, 111, 149, 0.3) !important;
+}
+
+.btnApagar {
+  background: white !important;
+  color: #dc3545 !important;
+  border: 1px solid #dc3545 !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btnApagar:hover {
+  background: #dc3545 !important;
+  color: white !important;
+  border-color: #dc3545 !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
 }
