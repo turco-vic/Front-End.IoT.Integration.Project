@@ -37,7 +37,7 @@ export default function LoginPage() {
 
         {erro && (
           <Alert
-            message="Erro"
+            message=""
             description={erro}
             type="error"
             closable

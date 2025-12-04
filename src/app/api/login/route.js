@@ -13,7 +13,6 @@ export async function POST(request) {
       return NextResponse.json({ erro: 'Nome ou senha inválidos' }, { status: 401 });
     }
 
-    // Retorna apenas id e nome, sem a senha
     return NextResponse.json({ 
       id: usuario.id, 
       nome: usuario.nome 
