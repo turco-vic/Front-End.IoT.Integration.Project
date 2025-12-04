@@ -10,6 +10,9 @@
   margin: 0 auto;
   padding: 48px 24px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .welcome {
@@ -30,6 +33,8 @@
 
 .cards {
   margin-top: 32px;
+  display: flex;
+  justify-content: center;
 }
 
 .card {
@@ -39,6 +44,7 @@
   transition: all 0.3s ease;
   cursor: pointer;
   height: 100%;
+  max-width: 400px;
 }
 
 .card:hover {
